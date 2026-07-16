@@ -5,8 +5,8 @@ from pathlib import Path
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='GDP dashboard',
-    page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
+    page_title='LTE Stats dashboard',
+    page_icon=':abacus:', # This is an emoji shortcode. Could be a URL too.
 )
 
 # -----------------------------------------------------------------------------
@@ -14,7 +14,7 @@ st.set_page_config(
 
 @st.cache_data
 def get_gdp_data():
-    """Grab GDP data from a CSV file.
+    """Grab LTE Download data from a CSV file.
 
     This uses caching to avoid having to read the file every time. If we were
     reading from an HTTP endpoint instead of a file, it's a good idea to set
@@ -59,6 +59,23 @@ def get_gdp_data():
 
 gdp_df = get_gdp_data()
 
+def get_lte_countries():
+    """Grab LTE Download data from a CSV file.
+
+    This uses caching to avoid having to read the file every time. If we were
+    reading from an HTTP endpoint instead of a file, it's a good idea to set
+    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
+    """
+
+    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
+    DATA_FILENAME = Path(__file__).parent/'data/lte_data.csv'
+    raw_lte_countries_df = pd.read_csv(DATA_FILENAME)
+
+    # Convert years from string to integers
+    raw_lte_countries_df['Year'] = pd.to_numeric(raw_lte_countries_df['Year'])
+
+    return raw_lte_countries_df
+lte_countries_df = get_lte_countries()
 # -----------------------------------------------------------------------------
 # Draw the actual page
 
@@ -75,8 +92,8 @@ But it's otherwise a great (and did I mention _free_?) source of data.
 ''
 ''
 
-min_value = gdp_df['Year'].min()
-max_value = gdp_df['Year'].max()
+min_value = lte_countries_df['Year'].min()
+max_value = lte_countries_df['Year'].max()
 
 from_year, to_year = st.slider(
     'Which years are you interested in?',
@@ -84,7 +101,7 @@ from_year, to_year = st.slider(
     max_value=max_value,
     value=[min_value, max_value])
 
-countries = gdp_df['Country Code'].unique()
+countries = lte_countries_df['country'].unique()
 
 if not len(countries):
     st.warning("Select at least one country")
@@ -92,27 +109,27 @@ if not len(countries):
 selected_countries = st.multiselect(
     'Which countries would you like to view?',
     countries,
-    ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
+    ['GB', 'FR', 'SA', 'US', 'CN', 'IN', 'JP', 'DE', 'IT', 'ES'])
 
 ''
 ''
 ''
 
 # Filter the data
-filtered_gdp_df = gdp_df[
-    (gdp_df['Country Code'].isin(selected_countries))
-    & (gdp_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
+filtered_lte_df = lte_countries_df[
+    (lte_countries_df['country'].isin(selected_countries))
+    & (lte_countries_df['Year'] <= to_year)
+    & (from_year <= lte_countries_df['Year'])
 ]
 
-st.header('GDP over time', divider='gray')
+st.header('LTE Download Data over time', divider='gray')
 
 ''
 
 st.line_chart(
-    filtered_gdp_df,
+    filtered_lte_df,
     x='Year',
-    y='GDP',
+    y='nbDL',
     color='Country Code',
 )
 
