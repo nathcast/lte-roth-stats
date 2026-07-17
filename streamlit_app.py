@@ -103,6 +103,14 @@ countries = (
     ]
     .unique()
 )
+
+dois = (
+    lte_dois_df.loc[
+        lte_dois_df['DOI'].notna(),
+        'DOI'
+    ]
+    .unique()
+)
 first_year = lte_countries_df[lte_countries_df['year'] == from_year]
 last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
@@ -131,8 +139,18 @@ filtered_lte_sector_df = lte_sectors_df[
     & (from_year <= lte_countries_df['year'])
 ]
 
+if not len(dois):
+    st.warning("Select at least one DOI")
+
+selected_dois = st.multiselect(
+    'Which DOI would you like to view?',
+    dois,
+    ['10.23637/KeyRefOABKyields', '10.23637/rbk1-yld6822-01', '10.23637/rbk1-bksoils-01', 
+     '10.23637/rbk1-1796346264-1', '10.23637/rbk1-BKNUTRW-01']) 
 # Filter the data
 filtered_lte_doi_df = lte_dois_df[
+    (lte_dois_df['DOI'].isin(selected_dois))
+    &
     (lte_dois_df['year'] <= to_year)
     & (from_year <= lte_dois_df['year'])
 ]
@@ -180,6 +198,7 @@ st.bar_chart(
 '''
 ## By DOIs
 '''
+
 
 st.bar_chart(
     filtered_lte_doi_df,
