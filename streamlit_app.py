@@ -155,30 +155,9 @@ st.header(f'LTE Downloads in {to_year}', divider='gray')
 ''
 
 '''
-Attempting to add more metrics 
+Attempting to add more metrics. Meanwhile, here is the data
+ 
 '''
 
 
-cols = st.columns(4)
-
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
-
-    with col:
-        first_dl = first_year[first_year['country'] == country]['dls'].iat[0]
-        last_dl = last_year[last_year['country'] == country]['dls'].iat[0]
-
-        if math.isnan(first_dl):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_dl / first_dl:,.2f}x'
-            delta_color = 'normal'
-
-        st.metric(
-            label=f'{country} LTE Downloads',
-            value=f'{last_dl:,.0f}',
-            delta=growth,
-            delta_color=delta_color
-        )
- 
+st.dataframe(lte_countries_df)
