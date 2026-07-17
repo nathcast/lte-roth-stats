@@ -52,9 +52,21 @@ def get_lte_sectors():
 
     return raw_lte_sectors_df
 
-lte_countries_df = get_lte_countries()
-lte_sectors_df = get_lte_sectors()
+def get_lte_dois():
+    """_summary_ Grad the LTS download data per DOI
+    """
+    DATA_FILENAME = Path(__file__).parent/'data/lte_dois.csv'
+    raw_lte_dois_df = pd.read_csv(DATA_FILENAME)
+    raw_lte_dois_df['year'] = pd.to_numeric(raw_lte_dois_df['year'])
 
+    return raw_lte_dois_df
+    
+
+## get my dataframes
+
+lte_sectors_df = get_lte_sectors()
+lte_countries_df = get_lte_countries()
+lte_dois_df = get_lte_dois()
 # -----------------------------------------------------------------------------
 # Draw the actual page
 
@@ -118,6 +130,13 @@ filtered_lte_sector_df = lte_sectors_df[
     (lte_countries_df['year'] <= to_year)
     & (from_year <= lte_countries_df['year'])
 ]
+
+# Filter the data
+filtered_lte_doi_df = lte_dois_df[
+    (lte_dois_df['year'] <= to_year)
+    & (from_year <= lte_dois_df['year'])
+]
+
 st.header('LTE Download Data over time', divider='gray')
 
 ''
@@ -154,6 +173,19 @@ st.bar_chart(
     x='year',
     y='dls',
     color='sector',
+    use_container_width=True
+)
+
+
+'''
+## By DOIs
+'''
+
+st.bar_chart(
+    filtered_lte_doi_df,
+    x='year',
+    y='dls',
+    color='DOI',
     use_container_width=True
 )
 
