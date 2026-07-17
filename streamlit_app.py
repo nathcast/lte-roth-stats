@@ -119,8 +119,8 @@ selected_countries = st.multiselect(
 # Filter the data
 filtered_lte_df = lte_countries_df[
     (lte_countries_df['country'].isin(selected_countries))
-    & (lte_countries_df['Year'] <= to_year)
-    & (from_year <= lte_countries_df['Year'])
+    & (lte_countries_df['year'] <= to_year)
+    & (from_year <= lte_countries_df['year'])
 ]
 
 st.header('LTE Download Data over time', divider='gray')
