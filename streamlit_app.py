@@ -68,11 +68,11 @@ def get_lte_countries():
     """
 
     # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/lte_data.csv'
+    DATA_FILENAME = Path(__file__).parent/'data/lte_countries.csv'
     raw_lte_countries_df = pd.read_csv(DATA_FILENAME)
 
     # Convert years from string to integers
-    raw_lte_countries_df['Year'] = pd.to_numeric(raw_lte_countries_df['Year'])
+    raw_lte_countries_df['year'] = pd.to_numeric(raw_lte_countries_df['year'])
 
     return raw_lte_countries_df
 
