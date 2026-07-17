@@ -54,6 +54,7 @@ def get_lte_sectors():
 
 lte_countries_df = get_lte_countries()
 lte_sectors_df = get_lte_sectors()
+
 # -----------------------------------------------------------------------------
 # Draw the actual page
 
@@ -61,8 +62,11 @@ lte_sectors_df = get_lte_sectors()
 '''
 # :abacus: LTE downloads dashboard
 
-Browse download data from the LTE data. 
+Browse information on the downloads of datasets from the eRA web site. 
+This information is dependant on the willingness of the user to fill it in. 
 
+
+## By Countries
 '''
 
 # Add some spacing
@@ -78,7 +82,17 @@ from_year, to_year = st.slider(
     max_value=max_value,
     value=[min_value, max_value])
 
-countries = lte_countries_df['country'].unique()
+""" countries = lte_countries_df['country'].unique() """
+countries = (
+    lte_countries_df.loc[
+        lte_countries_df['country'].notna()
+        & lte_countries_df['country'].str.len().eq(2),
+        'country'
+    ]
+    .unique()
+)
+first_year = lte_countries_df[lte_countries_df['year'] == from_year]
+last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
 if not len(countries):
     st.warning("Select at least one country")
@@ -129,6 +143,10 @@ st.bar_chart(
 
 '''
 ## By sector
+
+Please note 
+- capture of sector started in 2025
+- data is voluntary.  
 '''
 
 st.bar_chart(
@@ -140,17 +158,4 @@ st.bar_chart(
 )
 
 
-first_year = lte_countries_df[lte_countries_df['year'] == from_year]
-last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
-st.header(f'LTE Downloads in {to_year}', divider='gray')
-
-''
-
-'''
-Attempting to add more metrics. Meanwhile, here is the data
- 
-'''
-
-
-st.dataframe(lte_countries_df)
