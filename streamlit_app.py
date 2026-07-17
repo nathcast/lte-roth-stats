@@ -85,7 +85,7 @@ lte_countries_df = get_lte_countries()
 '''
 # :abacus: GDP dashboard
 
-Browse download data from the LTE data. As you'll
+Browse download data from the LTE data. 
 
 '''
 
@@ -110,7 +110,7 @@ if not len(countries):
 selected_countries = st.multiselect(
     'Which countries would you like to view?',
     countries,
-    ['GB', 'FR', 'SA', 'US', 'CN', 'IN', 'JP', 'DE', 'IT', 'ES'])
+    ['GB', 'FR', 'US', 'TR', 'CN', 'IN', 'AU'])
 
 ''
 ''
@@ -136,12 +136,16 @@ st.line_chart(
 )
 
 
-
 first_year = lte_countries_df[lte_countries_df['year'] == from_year]
 last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
 st.header(f'LTE Downloads in {to_year}', divider='gray')
 
+''
+
+'''
+Attempting to add more metrics 
+'''
 
 
 cols = st.columns(4)
@@ -150,19 +154,20 @@ for i, country in enumerate(selected_countries):
     col = cols[i % len(cols)]
 
     with col:
-        first_gdp = first_year[first_year['country'] == country]['dls'].iat[0]
-        last_gdp = last_year[last_year['country'] == country]['dls'].iat[0]
+        first_dl = first_year[first_year['country'] == country]['dls'].iat[0]
+        last_dl = last_year[last_year['country'] == country]['dls'].iat[0]
 
-        if math.isnan(first_gdp):
+        if math.isnan(first_dl):
             growth = 'n/a'
             delta_color = 'off'
         else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
+            growth = f'{last_dl / first_dl:,.2f}x'
             delta_color = 'normal'
 
         st.metric(
             label=f'{country} LTE Downloads',
-            value=f'{last_gdp:,.0f}',
+            value=f'{last_dl:,.0f}',
             delta=growth,
             delta_color=delta_color
         )
+ 
