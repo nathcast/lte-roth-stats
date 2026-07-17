@@ -136,6 +136,17 @@ st.line_chart(
 )
 
 
+''
+
+st.bar_chart(
+    filtered_lte_df,
+    x='year',
+    y='dls',
+    color='country',
+    use_container_width=True
+)
+
+
 first_year = lte_countries_df[lte_countries_df['year'] == from_year]
 last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
