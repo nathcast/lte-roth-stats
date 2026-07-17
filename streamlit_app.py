@@ -75,6 +75,8 @@ def get_lte_countries():
     raw_lte_countries_df['Year'] = pd.to_numeric(raw_lte_countries_df['Year'])
 
     return raw_lte_countries_df
+
+
 lte_countries_df = get_lte_countries()
 # -----------------------------------------------------------------------------
 # Draw the actual page
@@ -135,7 +137,7 @@ st.line_chart(
 
 ''
 ''
-
+""" 
 
 first_year = gdp_df[gdp_df['Year'] == from_year]
 last_year = gdp_df[gdp_df['Year'] == to_year]
@@ -166,3 +168,4 @@ for i, country in enumerate(selected_countries):
             delta=growth,
             delta_color=delta_color
         )
+ """
