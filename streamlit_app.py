@@ -83,7 +83,7 @@ lte_countries_df = get_lte_countries()
 
 # Set the title that appears at the top of the page.
 '''
-# :abacus: GDP dashboard
+# :abacus: LTE downloads dashboard
 
 Browse download data from the LTE data. 
 
