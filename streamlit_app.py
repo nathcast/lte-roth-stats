@@ -131,7 +131,8 @@ st.line_chart(
     filtered_lte_df,
     x='year',
     y='dls',
-    color='Country Code',
+    color='country',
+    use_container_width=True
 )
 
 ''
