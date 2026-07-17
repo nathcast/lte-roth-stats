@@ -135,16 +135,14 @@ st.line_chart(
     use_container_width=True
 )
 
-''
-''
-""" 
 
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
 
-st.header(f'GDP in {to_year}', divider='gray')
+first_year = lte_countries_df[lte_countries_df['year'] == from_year]
+last_year = lte_countries_df[lte_countries_df['year'] == to_year]
 
-''
+st.header(f'LTE Downloads in {to_year}', divider='gray')
+
+
 
 cols = st.columns(4)
 
@@ -152,8 +150,8 @@ for i, country in enumerate(selected_countries):
     col = cols[i % len(cols)]
 
     with col:
-        first_gdp = first_year[first_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[last_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
+        first_gdp = first_year[first_year['country'] == country]['dls'].iat[0]
+        last_gdp = last_year[last_year['country'] == country]['dls'].iat[0]
 
         if math.isnan(first_gdp):
             growth = 'n/a'
@@ -163,9 +161,8 @@ for i, country in enumerate(selected_countries):
             delta_color = 'normal'
 
         st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
+            label=f'{country} LTE Downloads',
+            value=f'{last_gdp:,.0f}',
             delta=growth,
             delta_color=delta_color
         )
- """
