@@ -83,19 +83,18 @@ lte_countries_df = get_lte_countries()
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: GDP dashboard
+# :abacus: GDP dashboard
 
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
+Browse download data from the LTE data. As you'll
+
 '''
 
 # Add some spacing
 ''
 ''
 
-min_value = lte_countries_df['Year'].min()
-max_value = lte_countries_df['Year'].max()
+min_value = lte_countries_df['year'].min()
+max_value = lte_countries_df['year'].max()
 
 from_year, to_year = st.slider(
     'Which years are you interested in?',
@@ -130,8 +129,8 @@ st.header('LTE Download Data over time', divider='gray')
 
 st.line_chart(
     filtered_lte_df,
-    x='Year',
-    y='nbDL',
+    x='year',
+    y='dls',
     color='Country Code',
 )
 
