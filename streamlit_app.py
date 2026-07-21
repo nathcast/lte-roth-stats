@@ -5,10 +5,20 @@ from pathlib import Path
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='LTE Stats dashboard',
-    page_icon=':abacus:', # This is an emoji shortcode. Could be a URL too.
+    page_title='Rothamsted Long-term Experiments Datasets Downloads Stats dashboard',
+    page_icon='rres-logo.jpg', 
+    layout="wide"
 )
 
+
+col1, col2 = st.columns([6, 1])
+
+with col1:
+    st.title("Rothamsted Long-term Experiments Datasets Downloads")
+    st.caption("Engagement metrics tool")
+
+with col2:
+    st.image("rres-logo.jpg", width=200)
 # -----------------------------------------------------------------------------
 # Declare some useful functions.
 
@@ -72,7 +82,6 @@ lte_dois_df = get_lte_dois()
 
 # Set the title that appears at the top of the page.
 '''
-# :abacus: LTE downloads dashboard
 
 Browse information on the downloads of datasets from the eRA web site. 
 This information is dependant on the willingness of the user to fill it in. 
